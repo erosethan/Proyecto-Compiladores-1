@@ -3,16 +3,18 @@
 import sys
 
 def esParentesis(char):
-	if char == '(':
-		return 1
-	if char == ')':
-		return 2
-	return 0;
+	return {
+		'(': 1,
+		')': -1
+	}.get(char, 0)
 	
 def esOperador(char):
-	if char == '*' or char == '+' or char == '-' or char == '|':
-		return True
-	return False
+	return {
+		'*': True,
+		'+': True,
+		'-': True,
+		'|': True
+	}.get(char, False)
 
 def esCaracterEspecial(char):
 	if esParentesis(char) or esOperador(char):
@@ -20,10 +22,17 @@ def esCaracterEspecial(char):
 	return False
 	
 def infijaAPosfija(expresion):
-	prioridad = {'(': 4, ')': 4, '|': 3, '-': 2, '+': 1, '*': 0}
-
 	pila = []
 	resultado = ''
+	
+	prioridad = {
+		'(': 4,
+		')': 4,
+		'|': 3,
+		'-': 2,
+		'+': 1,
+		'*': 0
+	}
 	
 	n = len(expresion)
 	for i in range(n):
@@ -44,7 +53,7 @@ def infijaAPosfija(expresion):
 		if esParentesis(char) == 1:
 			pila.append(char)
 			
-		if esParentesis(char) == 2:
+		if esParentesis(char) == -1:
 			while pila[-1] != '(':
 				resultado += pila[-1]
 				pila.pop()
