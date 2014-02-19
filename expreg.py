@@ -1,7 +1,5 @@
 #!/usr/bin/python
 
-import sys
-
 def esParentesis(char):
 	return {
 		'(': 1,
@@ -10,10 +8,10 @@ def esParentesis(char):
 	
 def esOperador(char):
 	return {
-		'*': True,
-		'+': True,
+		'|': True,
 		'-': True,
-		'|': True
+		'+': True,
+		'*': True
 	}.get(char, False)
 
 def esCaracterEspecial(char):
