@@ -8,16 +8,32 @@ def esParentesis(char):
 
 def esOperador(char):
 	return {
-		'|': True,
-		'-': True,
-		'+': True,
-		'*': True
+		'|': 1,
+		'-': 1,
+		'+': -1,
+		'*': -1
 	}.get(char, False)
 
 def esCaracterEspecial(char):
 	if esParentesis(char) or esOperador(char):
 		return True
 	return False
+
+def marcarConcatenacion(expresion):
+	n = len(expresion)
+	if n == 0:
+		return ''
+	
+	nuevaExpreg = expresion[0]
+	for i in range(1, n):
+		char = expresion[i]
+		if not esOperador(char) and esParentesis(char) >= 0:
+			prev = expresion[i - 1]
+			if esParentesis(prev) <= 0 and esOperador(prev) <= 0:
+				nuevaExpreg += '-'
+		nuevaExpreg += char
+	
+	return nuevaExpreg
 
 def infijaAPosfija(expresion):
 	pila = []
