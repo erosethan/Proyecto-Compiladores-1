@@ -15,11 +15,12 @@ class Nodo:
 	def agregarTransicion(self, sig, char = '@'):
 		self.transiciones.append((sig, char))
 	
-	def imprimir(self, archivo):
-		try:
-			if self.esFinal:
-				archivo.write('%s [shape=doublecircle];\n' % str(self))
-			for trans in self.transiciones:
-				archivo.write('%s->%s [label="%s"];\n' % (str(self), str(trans[0]), trans[1]))
-		except IOError:
-			pass
+	def imprimir(self):
+		formato = ''
+		if self.esFinal:
+			formato += str(self)
+			formato += '[shape=doublecircle];\n'
+		for trans in self.transiciones:
+			formato += '%s->%s' % (str(self), str(trans[0]))
+			formato += '[label="%s"];\n' % trans[1]
+		return formato

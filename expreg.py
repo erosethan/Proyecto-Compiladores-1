@@ -12,7 +12,7 @@ def esOperador(char):
 		'-': 1,
 		'+': -1,
 		'*': -1
-	}.get(char, False)
+	}.get(char, 0)
 
 def esCaracterEspecial(char):
 	if esParentesis(char) or esOperador(char):
@@ -29,7 +29,7 @@ def marcarConcatenacion(expresion):
 		char = expresion[i]
 		if not esOperador(char) and esParentesis(char) >= 0:
 			prev = expresion[i - 1]
-			if esParentesis(prev) <= 0 and esOperador(prev) <= 0:
+			if esOperador(prev) <= 0 and esParentesis(prev) <= 0:
 				nuevaExpreg += '-'
 		nuevaExpreg += char
 	
