@@ -10,13 +10,16 @@ class Nodo:
 		Nodo.identificador += 1
 	
 	def __str__(self):
-		return 'Nodo(%d)' % self.id
+		return 'S%d' % self.id
 	
 	def agregarTransicion(self, sig, char = '@'):
 		self.transiciones.append((sig, char))
 	
-	def imprimir(self):
-		print('Inicia ' + str(self))
-		for trans in self.transiciones:
-			print('%s --(%s)--> %s' % (str(self), trans[1], str(trans[0])))
-		print('Termina ' + str(self) + '\n')
+	def imprimir(self, archivo):
+		try:
+			if self.esFinal:
+				archivo.write('%s [shape=doublecircle];\n' % str(self))
+			for trans in self.transiciones:
+				archivo.write('%s->%s [label="%s"];\n' % (str(self), str(trans[0]), trans[1]))
+		except IOError:
+			pass
