@@ -3,9 +3,9 @@
 class Nodo:
 	identificador = 0
 	
-	def __init__(self, esFinal = False):
+	def __init__(self, final = False):
+		self.esFinal = final
 		self.transiciones = []
-		self.esFinal = esFinal
 		self.id = Nodo.identificador
 		Nodo.identificador += 1
 	

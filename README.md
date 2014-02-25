@@ -23,4 +23,4 @@ Conversor de expresión regular a autómata finito determinista.
 ░░░░░░▀▄▄▄▄▄▄▀▀▀▒▒▒▒▒▄▄▀░░░░░
 ░░░░░░░░░▒▒▒▒▒▒▒▒▒▒▀▀░░░░░░░░
 
-wow, such project
+wow, such project, very finished
