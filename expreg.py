@@ -79,3 +79,14 @@ def infijaAPosfija(expresion):
 		pila.pop()
 	
 	return resultado
+
+def obtenerAlfabeto(expresion):
+    alfabeto = []
+    
+    n = len(expresion)
+    for i in range(n):
+        char = expresion[i]
+        if not esCaracterEspecial(char):
+            alfabeto.append(char)
+    
+    return set(alfabeto)

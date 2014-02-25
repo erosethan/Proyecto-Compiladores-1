@@ -73,6 +73,74 @@ def expregAThompson(expreg):
 
 	return inicios[0]
 
+def cerraduraEpsilon(iniciales):
+	cola = []
+	indice = 0
+	for inicial in iniciales:
+		cola.append(inicial)
+	
+	while(indice < len(cola)):
+		for trans in cola[indice].transiciones:
+			if trans[1] == '@' and not cola.count(trans[0]):
+				cola.append(trans[0])
+		indice += 1
+	
+	return set(cola)
+
+def moverConCaracter(iniciales, char):
+	alcanzables = []
+	
+	for inicial in iniciales:
+		for trans in inicial.transiciones:
+			if char == trans[1]:
+				alcanzables.append(trans[0])
+	
+	return set(alcanzables)
+
+def irConCaracter(iniciales, char):
+	mover = moverConCaracter(iniciales, char)
+	return cerraduraEpsilon(mover)
+
+def thompsonADeterminista(inicio, alfabeto):
+	inicial = cerraduraEpsilon({inicio})
+	
+	nodosGenerados = [Nodo()]
+	estadosGenerados = [inicial]
+	nEstados = len(estadosGenerados)
+	
+	indice = 0
+	while indice < nEstados:
+		for char in alfabeto:
+			nodo = nodosGenerados[indice]
+			estado = estadosGenerados[indice]
+			
+			nuevo = irConCaracter(estado, char)
+			
+			if not len(nuevo):
+				continue
+			
+			if estadosGenerados.count(nuevo):
+				generado = estadosGenerados.index(nuevo)
+				transicion = nodosGenerados[generado]
+				
+			else:
+				transicion = Nodo()
+				estadosGenerados.append(nuevo)
+				nodosGenerados.append(transicion)
+			
+			nodo.agregarTransicion(transicion, char)
+		
+		nEstados = len(estadosGenerados)
+		indice += 1
+	
+	for i in range(nEstados):
+		for estado in estadosGenerados[i]:
+			if estado.esFinal:
+				nodosGenerados[i].esFinal = True
+			if nodosGenerados[i].esFinal: break
+	
+	return nodosGenerados[0]
+
 def generarImagen(inicio, nombreImagen):
 	try:
 		formato = open('formato.dot', 'w')
@@ -95,10 +163,9 @@ def generarImagen(inicio, nombreImagen):
 		formato.close()
 		
 		os.system('dot -Tpng formato.dot -o %s.png' % nombreImagen)
-		os.system('%s.png' % nombreImagen)
 	
 	except IOError:
 		print('Error al generar %s.png' % nombreImagen)
 		formato.close()
 	
-	os.system('rm formato.dot')	
+	os.system('rm formato.dot')
